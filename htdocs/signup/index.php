@@ -18,8 +18,8 @@ if (isset($_SERVER['REQUEST_METHOD']) && 'POST' === $_SERVER['REQUEST_METHOD']) 
         $stmt = mysqli_prepare($con, $sql);
         mysqli_stmt_bind_param($stmt, 'ss', $uname, $hashed_pass);
         mysqli_stmt_execute($stmt);
-        $results = mysqli_stmt_get_result($stmt);
-        if ($results) {
+        mysqli_stmt_get_result($stmt);
+        if (mysqli_stmt_affected_rows($stmt) > 0) {
             $sql = "select uid from users where uname='$uname'";
             $uid = mysqli_fetch_assoc(mysqli_query($con, $sql))['uid'];
             $sql = "create table `$uid".'_'."$uname` ("
@@ -128,3 +128,5 @@ echo <<<HTML
 	<script src="../scripts/script.js"></script>
 </html>
 HTML;
+?>
+
